@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Signup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: rgb(234, 226, 198);
+            margin: 0;
+            padding: 0;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            color: black;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background: white;
+            color: rgb(234, 226, 198);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+        }
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        .navbar ul li {
+            display: inline;
+            cursor: pointer;
+            color: black;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: rgb(255, 230, 240);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .signup-container {
+            background: rgb(255, 230, 240);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 230, 240, 0.5);
+            color: black;
+            width: 300px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        input[type="text"], input[type="tel"], input[type="email"] {
+            width: 100%;
+            padding: 6px;
+            margin: 5px 0;
+            border: 1px solid rgb(234, 226, 198);
+            border-radius: 5px;
+            font-size: 16px;
+            color: black;
+        }
+        input::placeholder {
+            font-size: 12px;
+            color: black;
+        }
+        button {
+            width: 100%;
+            padding: 6px;
+            background: rgb(234, 226, 198);
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: rgb(90, 5, 40);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">SRKR ENGINEERING COLLEGE</div>
+        <ul>
+            <li>About</li>
+            <li class="dropdown">
+                Departments
+                <div class="dropdown-content">
+                    <a href="#">EEE</a>
+                    <a href="#">ECE</a>
+                    <a href="#">CSE</a>
+                    <a href="#">IT</a>
+                    <a href="#">CIVIL</a>
+                    <a href="#">MECHANICAL</a>
+                </div>
+            </li>
+            <li>Training and placements</li>
+            <li>News</li>
+            <li>Contact Us</li>
+        </ul>
+    </div>
+    <div class="signup-container">
+        <h2>EduPulse</h2>
+        <form action="/submit_signup" method="post">
+            <label for="first_name">First Name (required):</label><br>
+            <input type="text" id="first_name" name="first_name" placeholder="First Name" required><br><br>
+
+            <label for="middle_name">Middle Name (optional):</label><br>
+            <input type="text" id="middle_name" name="middle_name" placeholder="Middle Name"><br><br>
+
+            <label for="last_name">Last Name (required):</label><br>
+            <input type="text" id="last_name" name="last_name" placeholder="Last Name" required><br><br>
+
+            <label for="phone_number">Phone Number (required):</label><br>
+            <input type="tel" id="phone_number" name="phone_number" placeholder="Phone Number" required><br><br>
+
+            <label for="email">Email ID (required):</label><br>
+            <input type="email" id="email" name="email" placeholder="Email ID" required><br><br>
+
+            <label for="branch">Branch (required):</label><br>
+            <input type="text" id="branch" name="branch" placeholder="Branch" required><br><br>
+
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+</body>
+</html>

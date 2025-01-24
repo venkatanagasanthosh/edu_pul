@@ -10,7 +10,8 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        from routes import some_function, some_class  # Replace with actual functions or classes needed
+        from routes import routes_bp
+        app.register_blueprint(routes_bp)
         db.create_all()
 
     return app

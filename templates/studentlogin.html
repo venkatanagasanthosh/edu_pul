@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student-Parent Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: rgb(234, 226, 198);
+            margin: 0;
+            padding: 0;
+            color: black;
+        }
+        h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            color: black;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background: white;
+            color: rgb(234, 226, 198);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+        }
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        .navbar ul li {
+            display: inline;
+            cursor: pointer;
+            color: black;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 50px;
+        }
+        .login-section {
+            max-width: 400px;
+        }
+        .login-box {
+            background: rgb(255, 230, 240);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 230, 240, 0.5);
+            color: black;
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 80%;
+            padding: 6px;
+            margin: 5px 0;
+            border: 1px solid rgb(234, 226, 198);
+            border-radius: 5px;
+            font-size: 12px;
+            color: black;
+        }
+        input:focus::placeholder {
+            color: black;
+        }
+        button {
+            width: 45%;
+            padding: 6px;
+            background: rgb(234, 226, 198);
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        button:hover {
+            background: rgb(200, 190, 170);
+        }
+        .illustration {
+            width: 60%;
+            text-align: center;
+        }
+        .illustration img {
+            width: 100%;
+            max-width: 700px;
+        }
+        .hidden {
+            display: none;
+        }
+        .toggle-password {
+            cursor: pointer;
+            font-size: 12px;
+            color: black;
+            margin-left: 5px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: rgb(255, 230, 240);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        .button-group button {
+            width: 45%;
+            padding: 6px;
+            background: rgb(234, 226, 198);
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .button-group button:hover {
+            background: rgb(200, 190, 170);
+        }
+        .login-section .login-box + .login-box {
+            margin-top: 1in; /* Adjusted gap between student and parent login to 1 inches */
+        }
+        .forgot-password {
+            display: inline-block;
+            margin-top: 10px;
+            color: black;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function showAdminLogin() {
+            document.getElementById("adminPrompt").style.display = "none";
+            document.getElementById("adminLogin").style.display = "block";
+        }
+
+        function togglePasswordVisibility(inputId, toggleButtonId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleButton = document.getElementById(toggleButtonId);
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                toggleButton.textContent = "Show";
+            }
+        }
+
+        function redirectToSignup() {
+            window.location.href = "student_signup.html";
+        }
+
+        function redirectToForgotPassword() {
+            window.location.href = "forgot_password.html";
+        }
+
+        function showStudentLoginFields() {
+            document.getElementById("studentLoginFields").classList.remove("hidden");
+            document.getElementById("studentLoginButton").classList.add("hidden");
+            document.getElementById("studentSignupButton").classList.add("hidden");
+        }
+
+        function showStudentSignupFields() {
+            window.location.href = "student_signup.html";
+        }
+
+        function login() {
+            // Add your login logic here
+            alert('Login successful');
+        }
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">SRKR ENGINEERING COLLEGE</div>
+        <ul>
+            <li>About</li>
+            <li class="dropdown">
+                Departments
+                <div class="dropdown-content">
+                    <a href="#">EEE</a>
+                    <a href="#">ECE</a>
+                    <a href="#">CSE</a>
+                    <a href="#">IT</a>
+                    <a href="#">CIVIL</a>
+                    <a href="#">MECHANICAL</a>
+                </div>
+            </li>
+            <li>Training and placements</li>
+            <li>News</li>
+            <li>Contact Us</li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <div class="login-section">
+            <h2>Edu Pulse</h2>
+            <p>EduPulse is a user-friendly platform that bridges the gap between parents and students...</p>
+            <div class="login-box">
+                <h3>Student Login</h3>
+                <form action="/login" method="post">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+            <div class="login-box" style="margin-top: 1in;">
+                <h3>Parent Login</h3>
+                <div class="button-group">
+                    <button onclick="alert('Face ID Authentication (Simulated)')">Login with Face ID</button>
+                    <button onclick="alert('Signup with Face ID')">Signup with Face ID</button>
+                </div>
+            </div>
+        </div>
+        <div class="illustration">
+            <img src="C:/Users/Public/Pictures/studnet_data.webp" alt="Illustration">
+        </div>
+    </div>
+</body>
+</html>

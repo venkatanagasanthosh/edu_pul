@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parent Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #333;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Video Background */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }
+
+    /* Header Section */
+    header {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    /* Main Dashboard Layout */
+    .dashboard {
+      display: flex;
+      flex: 1;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    /* Video Section */
+    .video-section {
+      flex: 1;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 3;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-content h2 {
+      margin: 0;
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    .main-content p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* Chatbot Section */
+    .chatbot {
+      flex: 1;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .chatbot h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .chatbot ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .chatbot ul li {
+      margin-bottom: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      color: #6a5acd;
+    }
+
+    .chatbot ul li:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Video Background -->
+  <video class="video-background" autoplay loop muted>
+    <source src="path/to/your/video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Header -->
+  <header>
+    Parent Dashboard - Welcome!
+  </header>
+
+  <!-- Dashboard Layout -->
+  <div class="dashboard">
+    <!-- Video Section -->
+    <div class="video-section">
+        <video width="320" height="240" controls>
+            <source src="C:\Users\ADMIN\Git_Shell\Parent_dashboard.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="main-content">
+      <h2>Your Dashboard</h2>
+      <p>
+        Welcome to the parent dashboard! Here, you can view student metrics, updates, and more. Explore the dashboard to find detailed insights about your child's academic and extracurricular performance.
+      </p>
+      <img src="C:\Users\ADMIN\Git_Shell\Parent_Student_Discussion.jpg" alt="Dashboard Overview" style="width:150%; max-width:700px; margin-top:20px;">
+    </div>
+
+    <!-- Chatbot Section -->
+    <div class="chatbot">
+      <h3>Ask the Chatbot:</h3>
+      <ul>
+        <li>What are my Son's attendance records?</li>
+        <li>How are the grades this semester?</li>
+        <li>Are there any upcoming parent-teacher meetings?</li>
+        <li>Can I get a summary of recent assignments?</li>
+        <li>How is my child performing in extracurricular activities?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Parent Dashboard. All Rights Reserved.
+  </footer>
+
+  <script>
+    // Optional: Handle chatbot question click event
+    const questions = document.querySelectorAll('.chatbot ul li');
+    questions.forEach((question) => {
+      question.addEventListener('click', () => {
+        alert(`You clicked: "${question.textContent}". The chatbot will assist you shortly.`);
+      });
+    });
+  </script>
+</body>
+</html>

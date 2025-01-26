@@ -1,9 +1,11 @@
+import random
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import db
+from db import db
 from models import Student
+# Removed Twilio import
+# from utils import send_otp
 
-# Create a Blueprint for routes
 routes_bp = Blueprint('routes', __name__)
 
 @routes_bp.route('/')
@@ -33,6 +35,11 @@ def signup():
     )
     db.session.add(new_student)
     db.session.commit()
+
+    # Removed OTP generation and sending logic
+    # otp = random.randint(100000, 999999)
+    # send_otp(data['phone_number'], otp)
+
     return redirect(url_for('routes.signup_success'))
 
 @routes_bp.route('/signup_success')
@@ -44,17 +51,28 @@ def login():
     data = request.form
     student = Student.query.filter_by(email=data['email']).first()
     if student and check_password_hash(student.password, data['password']):
-        if student.email == data['username']:
-            return jsonify({'message': 'Login successful'}), 200
-        else:
-            return jsonify({'message': 'Invalid username'}), 401
+        return jsonify({'message': 'Login successful'}), 200
     return jsonify({'message': 'Invalid credentials'}), 401
 
 @routes_bp.route('/check_db', methods=['GET'])
 def check_db():
     try:
-        # Attempt to query the database
         student_count = Student.query.count()
         return jsonify({'message': 'Database connection successful', 'student_count': student_count}), 200
     except Exception as e:
         return jsonify({'message': 'Database connection failed', 'error': str(e)}), 500
+
+@routes_bp.route('/forgot_password')
+def forgot_password():
+    return render_template('forgot_password.html')
+
+@routes_bp.route('/reset_password', methods=['POST'])
+def reset_password():
+    data = request.form
+    student = Student.query.filter_by(email=data['email'], phone_number=data['phone_number']).first()
+    if student:
+        hashed_password = generate_password_hash(data['new_password'], method='pbkdf2:sha256')
+        student.password = hashed_password
+        db.session.commit()
+        return redirect(url_for('routes.student_login'))
+    return jsonify({'message': 'Invalid email or phone number'}), 401

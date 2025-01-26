@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template, redirect, url_for, request, session, flash
 from flask_migrate import Migrate
+from werkzeug.security import generate_password_hash, check_password_hash
 from config import Config
 from db import db
 from datetime import datetime
@@ -37,22 +38,29 @@ def admin_signup():
         last_name = request.form['lastname']
         email = request.form['mailid']
         password = request.form['password']
-        # Add logic to save admin to the database
-        new_admin = Admin(first_name=first_name, last_name=last_name, email=email, password=password)
-        db.session.add(new_admin)
-        db.session.commit()
-        flash('Admin registered successfully!', 'success')
-        return redirect(url_for('admin_login'))  # Redirect to admin_login after signup
+        # Hash the password before saving it to the database
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        new_admin = Admin(first_name=first_name, last_name=last_name, email=email, password=hashed_password)
+        try:
+            db.session.add(new_admin)
+            db.session.commit()
+            flash('Admin registered successfully!', 'success')
+            print("Admin registered successfully")  # Debug statement
+            return redirect(url_for('admin_login'))  # Redirect to admin_login after signup
+        except Exception as e:
+            db.session.rollback()
+            flash('Error: Could not register admin. Please try again.', 'danger')
+            print(f"Error: {e}")  # Debug statement
     return render_template('Admin_Signup.html')  # Ensure this matches the template file name
 
 @app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
-        email = request.form['username']
+        email = request.form['email']
         password = request.form['password']
         # Add logic to verify admin credentials
-        admin = Admin.query.filter_by(email=email, password=password).first()
-        if admin:
+        admin = Admin.query.filter_by(email=email).first()
+        if admin and check_password_hash(admin.password, password):
             session['admin_logged_in'] = True
             flash('Login successful!', 'success')
             return redirect(url_for('admin_dashboard'))

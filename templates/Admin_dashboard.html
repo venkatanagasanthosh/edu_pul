@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    /* General Body Styling */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: rgb(234, 226, 198);
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: #6a5acd;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #8470ff;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .sidebar ul li:hover {
+      background-color: #5a4cd2;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .main-content h1 {
+      text-align: center;
+      color: #4a4a4a;
+    }
+
+    .form-section {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-section h2 {
+      margin-bottom: 10px;
+      color: #4a4a4a;
+    }
+
+    .form-section form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-section label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .form-section input,
+    .form-section textarea,
+    .form-section select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    .form-section button {
+      padding: 10px;
+      border: none;
+      background-color: #6a5acd;
+      color: white;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-section button:hover {
+      background-color: #5a4cd2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Admin Panel</h2>
+      <ul>
+        <li onclick="showSection('removeStudent')">Remove Student</li>
+        <li onclick="showSection('addStudent')">Add Student</li>
+        <li onclick="showSection('addCGPA')">Add Semester CGPA</li>
+        <li onclick="showSection('addActivities')">Add Extracurricular Activities</li>
+        <li onclick="showSection('addProjects')">Add Projects Done</li>
+        <li onclick="showSection('addAttendance')">Add Attendance</li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h1>Welcome, Admin</h1>
+
+      <!-- Remove Student Section -->
+      <div id="removeStudent" class="form-section" style="display: none;">
+        <h2>Remove Student</h2>
+        <form>
+          <label for="studentId">Student ID</label>
+          <input type="text" id="studentId" placeholder="Enter Student ID">
+          <button type="button">Remove Student</button>
+        </form>
+      </div>
+
+      <!-- Add Student Section -->
+      <div id="addStudent" class="form-section" style="display: none;">
+        <h2>Add Student</h2>
+        <form>
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" placeholder="Enter First Name">
+          
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" placeholder="Enter Last Name">
+          
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Enter Email">
+          
+          <label for="phone">Phone Number</label>
+          <input type="text" id="phone" placeholder="Enter Phone Number">
+          
+          <button type="button">Add Student</button>
+        </form>
+      </div>
+
+      <!-- Add CGPA Section -->
+      <div id="addCGPA" class="form-section" style="display: none;">
+        <h2>Add Semester CGPA</h2>
+        <form>
+          <label for="studentCGPAId">Student ID</label>
+          <input type="text" id="studentCGPAId" placeholder="Enter Student ID">
+          
+          <label for="semester">Semester</label>
+          <select id="semester">
+            <option value="1">Semester 1</option>
+            <option value="2">Semester 2</option>
+            <option value="3">Semester 3</option>
+            <option value="4">Semester 4</option>
+            <option value="5">Semester 5</option>
+            <option value="6">Semester 6</option>
+            <option value="7">Semester 7</option>
+            <option value="8">Semester 8</option>
+          </select>
+          
+          <label for="cgpa">CGPA</label>
+          <input type="text" id="cgpa" placeholder="Enter CGPA">
+          
+          <button type="button">Add CGPA</button>
+        </form>
+      </div>
+
+      <!-- Add Extracurricular Activities Section -->
+      <div id="addActivities" class="form-section" style="display: none;">
+        <h2>Add Extracurricular Activities</h2>
+        <form>
+          <label for="activityId">Student ID</label>
+          <input type="text" id="activityId" placeholder="Enter Student ID">
+          
+          <label for="activityName">Activity Name</label>
+          <input type="text" id="activityName" placeholder="Enter Activity Name">
+          
+          <label for="achievement">Achievement</label>
+          <textarea id="achievement" placeholder="Enter Achievement"></textarea>
+          
+          <button type="button">Add Activity</button>
+        </form>
+      </div>
+
+      <!-- Add Projects Section -->
+      <div id="addProjects" class="form-section" style="display: none;">
+        <h2>Add Projects Done</h2>
+        <form>
+          <label for="projectId">Student ID</label>
+          <input type="text" id="projectId" placeholder="Enter Student ID">
+          
+          <label for="projectName">Project Name</label>
+          <input type="text" id="projectName" placeholder="Enter Project Name">
+          
+          <label for="description">Description</label>
+          <textarea id="description" placeholder="Enter Project Description"></textarea>
+          
+          <button type="button">Add Project</button>
+        </form>
+      </div>
+
+      <!-- Add Attendance Section -->
+      <div id="addAttendance" class="form-section" style="display: none;">
+        <h2>Add Attendance</h2>
+        <form>
+          <label for="attendanceId">Student ID</label>
+          <input type="text" id="attendanceId" placeholder="Enter Student ID">
+          
+          <label for="attendance">Attendance (%)</label>
+          <input type="text" id="attendance" placeholder="Enter Attendance Percentage">
+          
+          <button type="button">Add Attendance</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll(".form-section");
+      sections.forEach(section => (section.style.display = "none"));
+
+      const targetSection = document.getElementById(sectionId);
+      if (targetSection) targetSection.style.display = "block";
+    }
+  </script>
+</body>
+</html>

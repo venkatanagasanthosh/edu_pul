@@ -1,5 +1,5 @@
 import random
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import db
 from models import Student
@@ -51,8 +51,15 @@ def login():
     data = request.form
     student = Student.query.filter_by(email=data['email']).first()
     if student and check_password_hash(student.password, data['password']):
-        return jsonify({'message': 'Login successful'}), 200
+        session['student_id'] = student.id
+        session['student_first_name'] = student.first_name
+        return redirect(url_for('routes.student_dashboard'))
     return jsonify({'message': 'Invalid credentials'}), 401
+
+@routes_bp.route('/student_dashboard')
+def student_dashboard():
+    first_name = session.get('student_first_name', 'Student')
+    return render_template('Studentdashboard.html', first_name=first_name)
 
 @routes_bp.route('/check_db', methods=['GET'])
 def check_db():

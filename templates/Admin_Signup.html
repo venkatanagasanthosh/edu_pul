@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Signup</title>
+  <style>
+    /* General Body Styling */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: rgb(234, 226, 198);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Signup Form Container */
+    .signup-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    .signup-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #4a4a4a;
+    }
+
+    /* Form Styling */
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .signup-form label {
+      font-weight: bold;
+      color: #4a4a4a;
+    }
+
+    .signup-form input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    .signup-form button {
+      padding: 10px;
+      border: none;
+      background-color: #6a5acd;
+      color: white;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .signup-form button:hover {
+      background-color: #5a4cd2;
+    }
+
+    .signup-container p {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #4a4a4a;
+    }
+
+    .signup-container p a {
+      color: #6a5acd;
+      text-decoration: none;
+    }
+
+    .signup-container p a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h2>Admin Signup</h2>
+    <form class="signup-form" id="signupForm" action="/admin_signup" method="POST">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" placeholder="Enter your first name" required>
+
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" placeholder="Enter your last name" required>
+
+      <label for="mailid">Mail ID</label>
+      <input type="email" id="mailid" placeholder="Enter your email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter a secure password" required>
+
+      <button type="submit">Signup</button>
+    </form>
+    <p>Already have an account? <a href="#">Login here</a></p>
+  </div>
+
+  <script>
+    // Handle Signup Form Submission
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Get form data
+      const firstname = document.getElementById('firstname').value.trim();
+      const lastname = document.getElementById('lastname').value.trim();
+      const mailid = document.getElementById('mailid').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      // Basic Validation
+      if (!firstname || !lastname || !mailid || !password) {
+        alert('All fields are required!');
+        return;
+      }
+
+      // Send data to backend (mock example)
+      console.log({
+        firstname,
+        lastname,
+        mailid,
+        password
+      });
+
+      alert('Signup successful!');
+      // Reset form
+      document.getElementById('signupForm').reset();
+    });
+  </script>
+</body>
+</html>

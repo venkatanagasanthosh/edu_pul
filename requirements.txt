@@ -1,0 +1,7 @@
+Flask==2.0.1 // For web framework
+Flask-Migrate==3.1.0 // For migration
+Flask-SQLAlchemy==2.5.1 // For database
+psycopg2-binary==2.9.1 // For PostgreSQL
+Werkzeug==2.0.1 // For hashing password
+PostgerSQL==13.4 // For database
+python == 3.8+

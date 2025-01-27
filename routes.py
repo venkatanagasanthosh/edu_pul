@@ -1,12 +1,11 @@
 import random
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for, session
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import db
-from models import Student
-# Removed Twilio import
-# from utils import send_otp
+from models import Admin, Student
 
 routes_bp = Blueprint('routes', __name__)
+admin_bp = Blueprint('admin', __name__)
 
 @routes_bp.route('/')
 def index():
@@ -35,11 +34,6 @@ def signup():
     )
     db.session.add(new_student)
     db.session.commit()
-
-    # Removed OTP generation and sending logic
-    # otp = random.randint(100000, 999999)
-    # send_otp(data['phone_number'], otp)
-
     return redirect(url_for('routes.signup_success'))
 
 @routes_bp.route('/signup_success')
@@ -83,3 +77,59 @@ def reset_password():
         db.session.commit()
         return redirect(url_for('routes.student_login'))
     return jsonify({'message': 'Invalid email or phone number'}), 401
+
+@admin_bp.route('/admin_signup', methods=['GET', 'POST'])
+def admin_signup():
+    if request.method == 'POST':
+        first_name = request.form.get('firstname')
+        last_name = request.form.get('lastname')
+        email = request.form.get('mailid')
+        password = request.form.get('password')
+
+        print(f"Received data: {first_name}, {last_name}, {email}, {password}")  # Debug statement
+
+        if not first_name or not last_name or not email or not password:
+            flash('All fields are required.', 'danger')
+            return redirect(url_for('admin.admin_signup'))
+
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+
+        try:
+            new_admin = Admin(first_name=first_name, last_name=last_name, email=email, password=hashed_password)
+            db.session.add(new_admin)
+            db.session.commit()
+            flash('Admin registered successfully!', 'success')
+            print("Admin registered successfully")  # Debug statement
+            return redirect(url_for('admin.admin_login'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error saving admin: {e}', 'danger')
+            print(f"Error: {e}")  # Debug statement
+            return redirect(url_for('admin.admin_signup'))
+
+    return render_template('Admin_Signup.html')
+
+@admin_bp.route('/admin_login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        admin = Admin.query.filter_by(email=email).first()
+
+        if admin and check_password_hash(admin.password, password):
+            session['admin_logged_in'] = True
+            session['admin_id'] = admin.id
+            flash('Login successful!', 'success')
+            return redirect(url_for('admin.admin_dashboard'))
+        else:
+            flash('Invalid credentials, please try again.', 'danger')
+
+    return render_template('admin_login.html')
+
+@admin_bp.route('/admin_dashboard')
+def admin_dashboard():
+    if not session.get('admin_logged_in'):
+        return redirect(url_for('admin.admin_login'))
+
+    return render_template('Admin_dashboard.html')

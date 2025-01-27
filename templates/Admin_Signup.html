@@ -86,7 +86,7 @@
 <body>
   <div class="signup-container">
     <h2>Admin Signup</h2>
-    <form class="signup-form" id="signupForm" action="/admin_signup" method="POST">
+    <form class="signup-form" id="signupForm" action="/admin/admin_signup" method="POST">
       <label for="firstname">First Name</label>
       <input type="text" id="firstname" name="firstname" placeholder="Enter your first name" required>
 
@@ -101,38 +101,7 @@
 
       <button type="submit">Signup</button>
     </form>
-    <p>Already have an account? <a href="/admin_login">Login here</a></p>
+    <p>Already have an account? <a href="/admin/admin_login">Login here</a></p>
   </div>
-
-  <script>
-    // Handle Signup Form Submission
-    document.getElementById('signupForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      // Get form data
-      const firstname = document.getElementById('firstname').value.trim();
-      const lastname = document.getElementById('lastname').value.trim();
-      const mailid = document.getElementById('mailid').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      // Basic Validation
-      if (!firstname || !lastname || !mailid || !password) {
-        alert('All fields are required!');
-        return;
-      }
-
-      // Send data to backend (mock example)
-      console.log({
-        firstname,
-        lastname,
-        mailid,
-        password
-      });
-
-      alert('Signup successful!');
-      // Reset form
-      document.getElementById('signupForm').reset();
-    });
-  </script>
 </body>
 </html>

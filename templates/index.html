@@ -1,18 +1,50 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to EduPulse Postgres password: EQ7XcBqiznbKnCYWXVNA</title>
+    <title>Welcome to EduPulse</title>
+    <style>
+        /* General Body Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: rgb(234, 226, 198);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .container h1 {
+            color: #4a4a4a;
+        }
+
+        .container a {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #6a5acd;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .container a:hover {
+            background-color: #5a4cd2;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to EduPulse</h1>
-    <p>This is the home page.</p>
-    <nav>
-        <ul>
-            <li><a href="/studentlogin">Student Login</a></li>
-            <li><a href="/studentsignup">Student Signup</a></li>
-        </ul>
-    </nav>
+    <div class="container">
+        <h1>Welcome to EduPulse</h1>
+        <a href="/studentlogin">Student Login</a>
+        <a href="/studentsignup">Student Signup</a>
+        <a href="/admin/admin_login">Are you an admin?</a> <!-- Ensure this link is correct -->
+    </div>
 </body>
 </html>

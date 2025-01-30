@@ -2,7 +2,8 @@ import random
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import db
-from models import Admin, Student
+from models import Admin, Student, CGPA, Attendance
+from datetime import datetime
 
 routes_bp = Blueprint('routes', __name__)
 admin_bp = Blueprint('admin', __name__)
@@ -78,6 +79,31 @@ def reset_password():
         return redirect(url_for('routes.student_login'))
     return jsonify({'message': 'Invalid email or phone number'}), 401
 
+@routes_bp.route('/current_date')
+def current_date():
+    return jsonify({'date': datetime.now().strftime('%Y-%m-%d')})
+
+@routes_bp.route('/attendance_data')
+def attendance_data():
+    student_id = session.get('student_id')
+    if not student_id:
+        return jsonify({'message': 'Unauthorized'}), 401
+
+    attendance = Attendance.query.filter_by(student_id=student_id).first()
+    if not attendance:
+        return jsonify({'message': 'No attendance data found'}), 404
+
+    data = {
+        'present': attendance.percentage,  # Assuming 'percentage' is the attendance percentage
+        'absent': 100 - attendance.percentage,
+        'late': 0  # Assuming no data for 'late'
+    }
+    return jsonify(data)
+
+@routes_bp.route('/my_dashboard')
+def my_dashboard():
+    return render_template('my_dashboard.html')
+
 @admin_bp.route('/admin_signup', methods=['GET', 'POST'])
 def admin_signup():
     if request.method == 'POST':
@@ -132,4 +158,82 @@ def admin_dashboard():
     if not session.get('admin_logged_in'):
         return redirect(url_for('admin.admin_login'))
 
-    return render_template('Admin_dashboard.html')
+    students = Student.query.all()
+    return render_template('Admin_dashboard.html', students=students)
+
+@admin_bp.route('/remove_student', methods=['POST'])
+def remove_student():
+    student_id = request.form.get('studentId')
+    if not student_id:
+        flash('Student ID is required.', 'danger')
+        return redirect(url_for('admin.admin_dashboard'))
+
+    student = Student.query.get(student_id)
+    if not student:
+        flash('Student not found.', 'danger')
+        return redirect(url_for('admin.admin_dashboard'))
+
+    try:
+        db.session.delete(student)
+        db.session.commit()
+        flash('Student removed successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error removing student: {e}', 'danger')
+
+    return redirect(url_for('admin.admin_dashboard'))
+@admin_bp.route('/add_cgpa', methods=['POST'])
+
+def add_cgpa():
+    student_id = request.form.get('studentId')
+    semester = request.form.get('semester')
+    cgpa = request.form.get('cgpa')
+
+    if not student_id or not semester or not cgpa:
+        flash('All fields are required.', 'danger')
+        return redirect(url_for('admin.admin_dashboard'))
+
+    student = Student.query.get(student_id)
+    if not student:
+        flash('Student not found.', 'danger')
+        return redirect(url_for('admin.admin_dashboard'))
+
+    try:
+        new_cgpa = CGPA(student_id=student_id, semester=semester, cgpa=cgpa)
+        db.session.add(new_cgpa)
+        db.session.commit()
+        flash('CGPA added successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error adding CGPA: {e}', 'danger')
+
+    return redirect(url_for('admin.admin_dashboard'))
+
+@admin_bp.route('/add_attendance', methods=['POST'])
+def add_attendance():
+    student_id = request.form.get('studentId')
+    percentage = request.form.get('percentage')
+
+    if not student_id or not percentage:
+        flash('All fields are required.', 'danger')
+        return redirect(url_for('admin.admin_dashboard'))
+
+    student = Student.query.get(student_id)
+    if not student:
+        flash('Student not found.', 'danger')
+        return redirect(url_for('admin.admin_dashboard'))
+
+    try:
+        new_attendance = Attendance(student_id=student_id, percentage=percentage)
+        db.session.add(new_attendance)
+        db.session.commit()
+        flash('Attendance added successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error adding attendance: {e}', 'danger')
+
+    return redirect(url_for('admin.admin_dashboard'))
+
+@routes_bp.route('/dashboard')
+def dashboard():
+    return render_template('studentdashboard.html')

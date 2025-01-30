@@ -111,6 +111,56 @@
     .form-section button:hover {
       background-color: #5a4cd2;
     }
+
+    .flash-message {
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+
+    .flash-message.success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .flash-message.danger {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .cgpa-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .cgpa-table th, .cgpa-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .cgpa-table th {
+      background-color: #6a5acd;
+      color: white;
+    }
+
+    .attendance-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .attendance-table th, .attendance-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .attendance-table th {
+      background-color: #6a5acd;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -132,13 +182,22 @@
     <div class="main-content">
       <h1>Welcome, Admin</h1>
 
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
       <!-- Remove Student Section -->
       <div id="removeStudent" class="form-section" style="display: none;">
         <h2>Remove Student</h2>
-        <form>
+        <form action="/admin/remove_student" method="POST">
           <label for="studentId">Student ID</label>
-          <input type="text" id="studentId" placeholder="Enter Student ID">
-          <button type="button">Remove Student</button>
+          <input type="text" id="studentId" name="studentId" placeholder="Enter Student ID" required>
+          <button type="submit">Remove Student</button>
         </form>
       </div>
 
@@ -165,12 +224,12 @@
       <!-- Add CGPA Section -->
       <div id="addCGPA" class="form-section" style="display: none;">
         <h2>Add Semester CGPA</h2>
-        <form>
-          <label for="studentCGPAId">Student ID</label>
-          <input type="text" id="studentCGPAId" placeholder="Enter Student ID">
+        <form action="/admin/add_cgpa" method="POST">
+          <label for="studentId">Student ID</label>
+          <input type="text" id="studentId" name="studentId" placeholder="Enter Student ID" required>
           
           <label for="semester">Semester</label>
-          <select id="semester">
+          <select id="semester" name="semester" required>
             <option value="1">Semester 1</option>
             <option value="2">Semester 2</option>
             <option value="3">Semester 3</option>
@@ -182,9 +241,9 @@
           </select>
           
           <label for="cgpa">CGPA</label>
-          <input type="text" id="cgpa" placeholder="Enter CGPA">
+          <input type="text" id="cgpa" name="cgpa" placeholder="Enter CGPA" required>
           
-          <button type="button">Add CGPA</button>
+          <button type="submit">Add CGPA</button>
         </form>
       </div>
 
@@ -225,15 +284,76 @@
       <!-- Add Attendance Section -->
       <div id="addAttendance" class="form-section" style="display: none;">
         <h2>Add Attendance</h2>
-        <form>
-          <label for="attendanceId">Student ID</label>
-          <input type="text" id="attendanceId" placeholder="Enter Student ID">
+        <form action="/admin/add_attendance" method="POST">
+          <label for="studentId">Student ID</label>
+          <input type="text" id="studentId" name="studentId" placeholder="Enter Student ID" required>
           
-          <label for="attendance">Attendance (%)</label>
-          <input type="text" id="attendance" placeholder="Enter Attendance Percentage">
+          <label for="percentage">Attendance (%)</label>
+          <input type="text" id="percentage" name="percentage" placeholder="Enter Attendance Percentage" required>
           
-          <button type="button">Add Attendance</button>
+          <button type="submit">Add Attendance</button>
         </form>
+      </div>
+
+      <!-- CGPA Table -->
+      <div class="form-section">
+        <h2>Student CGPA</h2>
+        <table class="cgpa-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Semester 1</th>
+              <th>Semester 2</th>
+              <th>Semester 3</th>
+              <th>Semester 4</th>
+              <th>Semester 5</th>
+              <th>Semester 6</th>
+              <th>Semester 7</th>
+              <th>Semester 8</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+              <tr>
+                <td>{{ student.first_name }} {{ student.last_name }}</td>
+                {% for semester in range(1, 9) %}
+                  <td>
+                    {% for cgpa in student.cgpas %}
+                      {% if cgpa.semester == semester %}
+                        {{ cgpa.cgpa }}
+                      {% endif %}
+                    {% endfor %}
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Attendance Table -->
+      <div class="form-section">
+        <h2>Student Attendance</h2>
+        <table class="attendance-table">
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Student Name</th>
+              <th>Attendance (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+              {% for attendance in student.attendances %}
+                <tr>
+                  <td>{{ student.id }}</td>
+                  <td>{{ student.first_name }} {{ student.last_name }}</td>
+                  <td>{{ attendance.percentage }}</td>
+                </tr>
+              {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
